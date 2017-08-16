@@ -8,6 +8,11 @@
 package com.facebook.react.views.scroll;
 
 import android.annotation.TargetApi;
+import javax.annotation.Nullable;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -61,6 +66,8 @@ public class ReactScrollView extends ScrollView implements ReactClippingViewGrou
   private int mEndFillColor = Color.TRANSPARENT;
   private View mContentView;
   private ReactViewBackgroundManager mReactBackgroundManager;
+  private @Nullable ReactViewBackgroundDrawable mReactBackgroundDrawable;
+  private HashMap<String, Integer> mContentOffset = null;
 
   public ReactScrollView(ReactContext context) {
     this(context, null);
@@ -140,10 +147,21 @@ public class ReactScrollView extends ScrollView implements ReactClippingViewGrou
         MeasureSpec.getSize(heightMeasureSpec));
   }
 
+  public void setContentOffset(HashMap<String, Integer> contentOffset) {
+    mContentOffset = contentOffset;
+  }
+
+
   @Override
   protected void onLayout(boolean changed, int l, int t, int r, int b) {
     // Call with the present values in order to re-layout if necessary
-    scrollTo(getScrollX(), getScrollY());
+    // If contentOffset is set scroll to its position
+    if (mContentOffset != null) {
+      scrollTo(mContentOffset.get("x"), mContentOffset.get("y"));
+    } else {
+      // Call with the present values in order to re-layout if necessary
+      scrollTo(getScrollX(), getScrollY());
+    }
   }
 
   @Override
