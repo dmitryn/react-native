@@ -66,7 +66,6 @@ public class ReactScrollView extends ScrollView implements ReactClippingViewGrou
   private int mEndFillColor = Color.TRANSPARENT;
   private View mContentView;
   private ReactViewBackgroundManager mReactBackgroundManager;
-  private @Nullable ReactViewBackgroundDrawable mReactBackgroundDrawable;
   private HashMap<String, Integer> mContentOffset = null;
 
   public ReactScrollView(ReactContext context) {
